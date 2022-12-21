@@ -1,0 +1,48 @@
+v1.0
+1. Scan for items
+    1. Lab folder -> each student folder -> ... -> files
+    #Lab files could be stored in folder, archive
+    2. Scan for lab files recursivelly
+        1. Have config file (or send as parameters) containing name of files to check
+2. Process files
+    1. Have sample output(correct one to compare)
+    2. Check strictly (if every symbol of proccessed file is identical to sample)
+3. Output
+    1. Create labName_PROCESSED
+    2. In PROCESSED folder have OUTPUTS containing just the output of programms
+        labName_PROCESSED -> OUPTUT -> STUDENT_NAME -> fileName.txt
+    3. Strictly compared have difference files for each programm and log file
+        1. labName_PROCESSED -> DIFFERENCE -> STUDENT_NAME -> fileName.txt
+            (Line number) n. line from output file
+    4. Sort by CORRECT for files that are correct, REVIEW for files that have differences with sample and MANUAL if cant find files cannot compile or all of them are incorrect 
+        labName_PROCESSED -> DIFFERENCE -> STUDENT_NAME -> fileName.txt
+
+
+v2.0
+1.Scan for items 
+    1. Scan student directory for archives recursively
+    2. Unpack all archives
+2. Process files
+    1. Add parameter recognition
+    2. Check strictly (if every symbol of proccessed file is identical to sample)
+        -s
+    3. Check by number
+        -n
+    4. Check by words
+        -w
+    5. Chek by keywords
+        -k
+3.Output
+    2. labName_PROCESSED -> DIFFERENCE -> similarity.txt
+            STUDENT_NAME - n% (number of lines in sample / number of lines in ouput identical to sample)
+    4. If copared by number take only all integer and float numbers from sample and compare to only all integers and floats in output.
+    5. If copared by word take only all integer and float numbers from sample and compare to only all integers and floats in output.
+
+
+v3.0
+1. Scan for items
+    1. Make fixes
+2. Process files
+    1. fixes
+3.Ooutput
+    1. Calculate % of similarity
