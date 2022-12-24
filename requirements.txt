@@ -32,6 +32,8 @@ v2.0
         -w
     5. Chek by keywords
         -k
+    6. Duplicate .c file that have same name as sampel files
+        -d
 3.Output
     2. labName_PROCESSED -> DIFFERENCE -> similarity.txt
             STUDENT_NAME - n% (number of lines in sample / number of lines in ouput identical to sample)

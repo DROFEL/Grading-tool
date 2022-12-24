@@ -1,36 +1,48 @@
 BASE=$1
 PROCESSED="$1_PROCESSED"
 SAMPLEPATH="$2"
-if [ ! -d $PROCESSED ]
-then
-    mkdir $PROCESSED
-fi
+mkdir -p $PROCESSED
 
-OUTPUT="$PROCESSED/OUTPUT"
-
-if [ ! -d $OUTPUT ]
-then
-    mkdir $OUTPUT
-fi
-
-SAMPLELIST=$(ls $2)
-
-for LINE in $SAMPLELIST
-do
-echo $LINE
-done
+SAMPLE_LIST=$(ls $2)
 
 for DIR in $BASE/*; do
+    STUDENT_NAME=$(basename $DIR)
     CFILES=$(find $DIR -name "*.c")
-    echo $CFILES
+    STUDENT_DIRECTORY="$PROCESSED/$STUDENT_NAME"
+    mkdir -p $STUDENT_DIRECTORY
+    COMPILED=$'Compiled correctly:\n'
+    INTRUDERS=$'Compiled incorrectly or not in correct list:\n'
+
+
     for FILE in $CFILES; do
-        FILENAME=$(basename $FILE .c)
-        STUDENTNAME=${FILE%/*}
-        STUDENTNAME="${STUDENTNAME##*/}"
-        OUTPUTFILE="$OUTPUT/$STUDENTNAME/$FILENAME"
-        echo $OUTPUTFILE
-        mkdir "$OUTPUT/$STUDENTNAME/"
+        OUTPUT="$STUDENT_DIRECTORY/OUTPUT"
+        mkdir -p $OUTPUT
+        MANUAL="$STUDENT_DIRECTORY/MANUAL"
+        mkdir -p $MANUAL
+        FILE_NAME=$(basename $FILE .c)
+
+        
+        DIFFERENCE=$(diff <(echo "$FILE_NAME") <(echo "$SAMPLE_LIST") | wc -l)
+        SAMPLE_COUNT=$(wc -w < <(echo "$SAMPLE_LIST"))
+
+        if [ "$DIFFERENCE" != "$SAMPLE_COUNT" ]
+        then
+            cp $FILE "$MANUAL/$FILE_NAME.c"
+            INTRUDERS+="$FILE_NAME\n" 
+        fi
+        
+        
         gcc $FILE
-        ./a.out > $OUTPUTFILE
+        if [ "$?" == "0" ]
+        then
+            OUTPUTFILE="$OUTPUT/$FILE_NAME.txt"
+            ./a.out > $OUTPUTFILE
+            COMPILED+="$FILE_NAME\n"
+        else
+            cp $FILE "$MANUAL/$FILE_NAME.c"
+            INTRUDERS+="$FILE_NAME\n"
+        fi
     done
+    LOG=$(echo -e "$COMPILED\n$INTRUDERS")
+    cat <(echo "$LOG") > $STUDENT_DIRECTORY/log.txt 
 done
