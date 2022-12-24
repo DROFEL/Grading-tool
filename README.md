@@ -1,7 +1,7 @@
 # Bash Grading Tool
 ## Motivation
 Grading labs can be a repetitive and time consuming task and some ports of it can be optimized reducing amount of time and energy.
-##Usage
+## Usage
 Right now to use this tool you need to create a new folder containing folders with student names. Inside it put .c fils
 
 `LAB -> STUDENT_NAME -> FILES_TO_GRADE`
